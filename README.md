@@ -1,4 +1,4 @@
-# Snacks Point - Online Food Ordering Application
+# Quick Bites - Online Food Ordering Application
 
 ## Project Overview
 Create a responssive web based food ordering app as part of the front end dev module. This application should demonstrate modern web app dev practices using HTM, CSS, Javascript, and version control w/ Git.
