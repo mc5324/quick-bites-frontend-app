@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="wemailInputth=device-width, initial-scale=1.0">
+        <title> Login - Snack Point</title>
+        <!--Reference TailwindCSS-->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+          tailwind.config = {
+            theme: {
+              extend: {
+                colors: {
+                  'snacks-blue': '#4A90E2',
+                  'snacks-orange': '#FF6B35',
+                }
+              }
+            }
+          }
+        </script>
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+
+
+<body class="login-page" data-page="admin-login"></body>
+<!--Main App Container-->
+    <div id="app" class="app-container">
+        <!--login container-->
+        <div class="login-container">
+        <!--left side of the app:Login Form-->
+        <section class="login-form-section">
+            <div class="login-form-wrapper">
+
+                <!--Brand/Logo Area-->
+                <div class="title-with-icon">
+                    <h1 class="page-title">Login
+                    <img src="images/typingcat.gif" alt="Typing Cat" class="login-icon"></h1>
+                    <p class="welcome-text">Welcome!</p>
+                    <p class="form-description">Enter your email address and password to login</p>
+                </div>
+
+                <!--Login Form-->
+                <form id="loginForm" class="login-form">
+
+                    <!--Email Field-->
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address:</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-input"
+                            placeholder="login@gmail.com"
+                            required
+                        >
+                        <span class="error-message" id="email-error"></span>
+                    </div>
+
+                    <!--Password Field-->
+                    <div class="form-group">
+                    <label for="password" class="form-label">Password:</label>
+                    <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-input"
+                            placeholder="********"
+                            required
+                        >
+                        <span class="error-message" id="password-error"></span>
+                    </div>
+                <!--Forgot email or password-->
+                <div class="text-right-mt-2">
+                    <a href="#" class="text-snacks-blue text-sm hover:underline">
+                      Forgot email address or password?
+                    </a>
+                  </div>
+                        <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-login">
+                        <span class="btn-text">Login</span>
+                    </button>
+                    <button type="reset" class="btn btn-secondary btn-reset">
+                        Reset
+                    </button>
+                </div>   
+
+                </form>
+            </div>
+        </section>
+
+
+        <!--right side of the app: food image representing the joint-->
+        <section class="login-image-section">
+            <img src="images/login-page-image.jpeg" 
+                 alt="Burger Joint" 
+                 class="burger-image">
+          </section>
+          
+        <!--success modal-->
+        <div id="successModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h3>This page says</h3>
+                <p>Successfully login!</p>
+                <button class="modal-btn" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+
+            </div>
+        </section>
+
+    </div>
+    </div>
+    <!--include auth.js here-->
+    <script src="js/auth.js"></script>
+</body>
+</html>

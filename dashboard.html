@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> - Quick Bites</title>
+        
+        <!-- Reference TailwindCSS -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+          tailwind.config = {
+            theme: {
+              extend: {
+                colors: {
+                  'snacks-blue': '#4A90E2',
+                  'snacks-orange': '#FF6B35',
+                }
+              }
+            }
+          }
+        </script>
+        <!-- Style Sheet -->
+        
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+<body class="dashboard-page" data-page="menu-dashboard">
+    
+    <!-- Main Application Container -->
+    <div id="app" class="app-container">
+        
+        <!-- Header Navigation -->
+        <header id="mainHeader" class="main-header">
+            <div class="header-content">
+                
+                <!-- Left: Logo -->
+                <div class="header-left">
+                    <h1 class="logo"> Quick Bites</h1>
+                </div>
+                
+                <!-- Center: Main Navigation -->
+                <nav class="header-nav">
+                    <button class="nav-btn search-btn">
+                        <span class="icon">🔍</span>
+                        <span class="nav-text">Search</span>
+                    </button>
+                    
+                    <button class="nav-btn offers-btn">
+                        <span class="icon">🤔💭</span>
+                        <span class="nav-text">Selections</span>
+                    </button>
+                    
+                    <button class="nav-btn cart-btn" onclick="openCartModal()">
+                        <span class="icon">🛒</span>
+                        <span id="cart-count" class="cart-count">0 Items</span>
+                    </button>
+                    
+                    <button class="nav-btn address-btn">
+                        <span class="icon">📍</span>
+                        <span class="nav-text">Location</span>
+                    </button>
+                </nav>
+                
+                <!-- Right: User Actions -->
+                <div class="header-right">
+                    <button class="logout-btn" onclick="logout()">logout</button>
+                </div>
+                
+            </div>
+        </header>
+        
+        <!-- Main Content Layout -->
+        <div class="main-layout">
+            
+            <!-- Left Sidebar Navigation -->
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <ul class="sidebar-nav-list">
+                        <li><a href="#about" class="sidebar-nav-link">About</a></li>
+                        <li><a href="#services" class="sidebar-nav-link">Services</a></li>
+                        <li><a href="#orders" class="sidebar-nav-link">Your Orders</a></li>
+                        <li><a href="#wishlists" class="sidebar-nav-link">Wishlists</a></li>
+                        <li><a href="#cart" class="sidebar-nav-link">Cart</a></li>
+                        <li><a href="#contact" class="sidebar-nav-link">Contact</a></li>
+                    </ul>
+                </nav>
+            </aside>
+            
+            <!-- Main Content Area -->
+            <main id="main-content" class="main-content">
+                
+                <!-- Category Header -->
+                <section class="category-header">
+                    <h2 id="category-title" class="category-title">Burger</h2>
+                </section>
+                
+                <!-- Food Items Grid -->
+                <section class="food-section">
+                    <div id="food-items-grid" class="food-items-grid">
+                        
+                        <!-- Cheese Burger Card -->
+                        <article class="food-item-card" data-item-id="cheese-burger">
+                            <div class="food-image-container">
+                                <img 
+                                    src="https://assets.epicurious.com/photos/5c745a108918ee7ab68daf79/1:1/w_2503,h_2503,c_limit/Smashburger-recipe-120219.jpg" 
+                                    alt="Cheese Burger" 
+                                    class="food-image"
+                                >
+                                
+                                <!-- Favorite Button -->
+                                <button class="favorite-btn" onclick="toggleFavorite('cheese-burger')">
+                                    <span class="heart-icon">♡</span>
+                                </button>
+                                
+                                <!-- Rating Badge -->
+                                <div class="rating-badge">
+                                    <span class="stars">★</span>
+                                    <span class="rating-number">4.7</span>
+                                </div>
+                            </div>
+                            
+                            <div class="food-info">
+                                <h3 class="food-name">Cheese Burger</h3>
+                                <div class="food-meta">
+                                    <span class="food-price">Price: $13</span>
+                                </div>
+                                
+                                <div class="food-actions">
+                                    <button class="add-to-cart-btn btn btn-primary" onclick="enhancedAddToCart('cheese-burger', 'Cheese Burger', 13, this)">
+                                        Add to Cart
+                                    </button>                                    
+                                </div>
+                            </div>
+                        </article>
+                        <!-- Hamburger w Fries  Card-->
+                        <article class="food-item-card" data-item-id="hamburger-fries">
+                            <div class="food-image-container">
+                                <img 
+                                    src="https://www.lifesatomato.com/wp-content/uploads/2022/08/Copycat-McDonalds-Hamburger.jpg" 
+                                    alt="Hamburger with Fries" 
+                                    class="food-image"
+                                >
+                                
+                                <!-- Favorite Button -->
+                                <button class="favorite-btn" onclick="toggleFavorite('cheese-burger')">
+                                    <span class="heart-icon">♡</span>
+                                </button>
+                                
+                                <!-- Rating Badge -->
+                                <div class="rating-badge">
+                                    <span class="stars">★</span>
+                                    <span class="rating-number">4.6</span>
+                                </div>
+                            </div>
+                            
+                            <div class="food-info">
+                                <h3 class="food-name">Hamburger with Fries</h3>
+                                <div class="food-meta">
+                                    <span class="food-price">Price: $13</span>
+                                </div>
+                                
+                                <div class="food-actions">
+                                    <button class="add-to-cart-btn btn btn-primary" onclick="enhancedAddToCart('hamburger-fries', 'Hamburger with Fries', 13, this)">
+                                        Add to Cart
+                                    </button>                                    
+                                </div>
+                            </div>
+                        </article>
+                        
+                        <!-- White Cheddar Elk Burger Card -->
+                        <article class="food-item-card" data-item-id="elk-burger">
+                            <div class="food-image-container">
+                                <img 
+                                    src="https://thehonestbison.com/wp-content/uploads/white-cheddar-elk-burger-with-mustard-aioli-recipe-1200x675.jpg" 
+                                    alt="White Cheddar Elk Burger" 
+                                    class="food-image"
+                                >
+                                
+                                <button class="favorite-btn" onclick="toggleFavorite('elk-burger')">
+                                    <span class="heart-icon">♡</span>
+                                </button>
+                                
+                                <div class="rating-badge">
+                                    <span class="stars">★</span>
+                                    <span class="rating-number">4.5</span>
+                                </div>
+                            </div>
+                            
+                            <div class="food-info">
+                                <h3 class="food-name">White Cheddar Elk Burger</h3>
+                                <div class="food-meta">
+                                    <span class="food-price">Price: $15</span>
+                                </div>
+                                
+                                <div class="food-actions">
+                                    <button class="add-to-cart-btn btn btn-primary" onclick="enhancedAddToCart('elk-burger', 'Elk Burger', 15, this)">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        
+                    </div>
+                </section>
+                
+            </main>
+            
+            <!-- Right Sidebar: Category Navigation -->
+            <aside class="category-sidebar">
+                <section class="category-hunt">
+                    <h3 class="hunt-title">Food Selection</h3>
+                    
+                    <nav class="category-nav">
+                        <button class="category-item active" onclick="switchCategory('burger')">
+                            <div class="category-icon">🍔</div>
+                            <span class="category-label">Burger</span>
+                        </button>
+                        
+                        <button class="category-item" onclick="switchCategory('ricebowl')">
+                            <div class="category-icon">🍚</div>
+                            <span class="category-label">Rice Bowls</span>
+                        </button>
+                        
+                        <button class="category-item" onclick="switchCategory('desserts')">
+                            <div class="category-icon">🍰</div>
+                            <span class="category-label">Desserts</span>
+                        </button>
+                        
+                        <button class="category-item" onclick="switchCategory('pizza')">
+                            <div class="category-icon">🍕</div>
+                            <span class="category-label">Pizza</span>
+                        </button>
+                    </nav>
+                </section>
+            </aside>
+            
+        </div>
+        
+    </div>
+    
+    <!-- Shopping Cart Modal -->
+    <div id="cartModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Shopping Cart</h3>
+                <button class="close-modal" onclick="closeCartModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cart-items" class="cart-items">
+                    <p class="empty-cart-message">Your cart is empty</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="cart-total">
+                    <strong>Total: $<span id="cart-total">0.00</span></strong>
+                </div>
+                <button class="btn btn-primary checkout-btn">Checkout</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/menu.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
