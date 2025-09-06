@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Export cart functions for other modules
+// Export cart functions 
 window.CartAPI = {
     getCart: () => cart,
     getCartCount: () => cart.reduce((total, item) => total + item.quantity, 0),

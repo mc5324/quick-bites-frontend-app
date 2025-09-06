@@ -19,7 +19,8 @@ Create a responssive web based food ordering app as part of the front end dev mo
 ## Project Structure
 food-ordering-app/
 ├── index.html          # Admin login page
-├── dashboard.html      # User dashboard/menu
+├── dashboard.html 
+├── location.html     # User dashboard/menu
 ├── css/
 │   └── styles.css     # Custom styles
 ├── js/

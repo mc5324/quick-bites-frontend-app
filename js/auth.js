@@ -1,4 +1,4 @@
-// Authentication functionality for food ordering app
+// Authentication functionality for quick bites app
 console.log('Auth module loaded');
 
 // DOM elements

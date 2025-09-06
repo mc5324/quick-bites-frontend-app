@@ -39,22 +39,22 @@
                 
                 <!-- Center: Main Navigation -->
                 <nav class="header-nav">
-                    <button class="nav-btn search-btn">
+                    <button class="nav-btn search-btn" type="button">
                         <span class="icon">🔍</span>
                         <span class="nav-text">Search</span>
                     </button>
                     
-                    <button class="nav-btn offers-btn">
+                    <button class="nav-btn offers-btn" type="button">
                         <span class="icon">🤔💭</span>
                         <span class="nav-text">Selections</span>
                     </button>
                     
-                    <button class="nav-btn cart-btn" onclick="openCartModal()">
+                    <button class="nav-btn cart-btn" onclick="openCartModal()" type="button">
                         <span class="icon">🛒</span>
                         <span id="cart-count" class="cart-count">0 Items</span>
                     </button>
                     
-                    <button class="nav-btn address-btn">
+                    <button class="nav-btn address-btn" type="button">
                         <span class="icon">📍</span>
                         <span class="nav-text">Location</span>
                     </button>
@@ -62,7 +62,7 @@
                 
                 <!-- Right: User Actions -->
                 <div class="header-right">
-                    <button class="logout-btn" onclick="logout()">logout</button>
+                    <button class="logout-btn" onclick="logout()" type="button">logout</button>
                 </div>
                 
             </div>
@@ -71,19 +71,6 @@
         <!-- Main Content Layout -->
         <div class="main-layout">
             
-            <!-- Left Sidebar Navigation -->
-            <aside class="sidebar">
-                <nav class="sidebar-nav">
-                    <ul class="sidebar-nav-list">
-                        <li><a href="#about" class="sidebar-nav-link">About</a></li>
-                        <li><a href="#services" class="sidebar-nav-link">Services</a></li>
-                        <li><a href="#orders" class="sidebar-nav-link">Your Orders</a></li>
-                        <li><a href="#wishlists" class="sidebar-nav-link">Wishlists</a></li>
-                        <li><a href="#cart" class="sidebar-nav-link">Cart</a></li>
-                        <li><a href="#contact" class="sidebar-nav-link">Contact</a></li>
-                    </ul>
-                </nav>
-            </aside>
             
             <!-- Main Content Area -->
             <main id="main-content" class="main-content">

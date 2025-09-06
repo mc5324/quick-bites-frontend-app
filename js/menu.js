@@ -1,7 +1,7 @@
 console.log('Menu module loaded');
 
 let currentCategory = 'burger';
-let favorites = JSON.parse(localStorage.getItem('snacksPointFavorites')) || [];
+let favorites = JSON.parse(localStorage.getItem('quickBitesFavorites')) || [];
 
 const MENU = {
   burger: [
@@ -17,7 +17,7 @@ const MENU = {
   ricebowl: [
     { id: 'teriyaki-chicken-bowl', name: 'Teriyaki Chicken Bowl', price: 12, rating: 4.5, img: 'https://modernmealmakeover.com/wp-content/uploads/2020/10/IMG_6548-4.jpg' },
     { id: 'spicy-tofu-bowl', name: 'Spicy Tofu Bowl', price: 11, rating: 4.4, img: 'https://www.thissavoryvegan.com/wp-content/uploads/2021/04/sweet-spicy-tofu-bowls-2-500x375.jpg' },
-    { id: 'beef-bowl', name: 'Chicken Bowl', price: 12, rating: 4.5, img: 'https://winniesbalance.com/wp-content/uploads/2020/07/Sweet-Korean-Rice-Bowl.jpg' }
+    { id: 'beef-bowl', name: 'Beef Bowl', price: 12, rating: 4.5, img: 'https://winniesbalance.com/wp-content/uploads/2020/07/Sweet-Korean-Rice-Bowl.jpg' }
     
   ],
   desserts: [
@@ -39,7 +39,7 @@ function buildCard({ id, name, price, rating, img }) {
       <div class="food-image-container">
         <img src="${img}" alt="${name}" class="food-image">
         <button class="favorite-btn" onclick="toggleFavorite('${id}')">
-          <span class="heart-icon" style="color:${isFav ? '#ef4444' : 'inherit'}">${isFav ? '❤️' : '♡'}</span>
+          <span class="heart-icon" style="color:${isFav ? 'oklch(62% 0.20 22)' : 'inherit'}">${isFav ? '❤️' : '♡'}</span>
         </button>
         <div class="rating-badge">
           <span class="stars">★</span>
@@ -95,8 +95,8 @@ function showCategoryLoading() {
     align-items: center; justify-content: center; z-index: 50;
   `;
   overlay.innerHTML = `
-    <div style="width:40px;height:40px;border:4px solid #e5e7eb;border-top:4px solid #4A90E2;border-radius:50%;animation:spin 1s linear infinite;"></div>
-    <p style="margin-top:1rem;color:#6b7280;">Loading menu...</p>
+    <div style="width:40px;height:40px;border:4px solid oklch(90% 0 0);border-top:4px solid oklch(62% 0.09 250);border-radius:50%;animation:spin 1s linear infinite;"></div>
+    <p style="margin-top:1rem;color:oklch(48% 0.01 220);">Loading menu...</p>
   `;
   if (getComputedStyle(mainContent).position === 'static') {
     mainContent.style.position = 'relative';
@@ -120,12 +120,15 @@ function showToast(message, type = 'info', duration = 3000) {
     `;
     document.body.appendChild(container);
   }
-  const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b', info: '#4A90E2' };
+  const colors = { success: 'oklch(62% 0.15 150)', //green
+    error: 'oklch(62% 0.20 22)',  //red
+    warning: 'oklch(62% 0.15 80)', //yellow
+    info: 'oklch(62% 0.09 250)' }; //blue
   const toast = document.createElement('div');
   toast.style.cssText = `
     background:${colors[type] || colors.info};color:white;
     padding:1rem 1.5rem;border-radius:0.5rem;
-    box-shadow:0 4px 6px rgba(0,0,0,0.1);
+    box-shadow:0 4px 6px oklch(0% 0 0 /0.1);
     transform:translateX(100%);transition:transform 0.3s ease-out;
     max-width:300px;display:flex;align-items:center;justify-content:space-between;gap:1rem;
   `;
@@ -145,7 +148,7 @@ function enhancedAddToCart(itemId, itemName, itemPrice, button) {
   setTimeout(() => {
     addToCart(itemId, itemName, itemPrice);
     button.innerHTML = '✓ Added to Cart!';
-    button.style.background = '#10b981';
+    button.style.background = 'oklch(65% 0.15 150)';
     showToast(`${itemName} added to cart!`, 'success');
     setTimeout(() => {
       button.innerHTML = original;
@@ -165,7 +168,7 @@ function initializeSearch() {
   }
 }
 
-function performSearch(term) {
+/*function performSearch(term) {
   const cards = document.querySelectorAll('.food-item-card');
   cards.forEach(card => {
     const name = card.querySelector('.food-name').textContent.toLowerCase();
@@ -173,13 +176,62 @@ function performSearch(term) {
   });
   showToast(`Search results for "${term}"`, 'info');
 }
+*/
+
+function performSearch(term) {
+  term = (term || '').toLowerCase().trim();
+  if (!term) return 0;
+
+  const cardExist = !!document.querySelector('.food-item-card');
+
+  const showMatchesInGrid = () => {
+    let shown = 0;
+    document.querySelectorAll('.food-item-card').forEach(card => {
+      const name = card.querySelector('.food-name').textContent.toLowerCase() || '';
+      const match = name.includes(term);
+      card.style.display = match ? '' : 'none'; // use '' instead of 'block' to allow flexbox to handle visibility
+      if (match) shown++
+    });
+    return shown;
+  };
+
+  // 1) Try filtering current grid
+  let shown = cardExist ? showMatchesInGrid() : 0;
+  if (shown > 0) {
+    showToast(`Found ${shown} result${shown === 1 ? '' : 's'} in ${currentCategory}`, 'success');
+    return shown;
+  }
+
+  // 2) Search MENU data and auto-switch
+  const hitCategory = Object.keys(MENU).find(cat =>
+    (MENU[cat] || []).some(item => (item.name || '').toLowerCase().includes(term))
+  );
+
+  if (hitCategory) {
+    currentCategory = hitCategory;
+    renderCategory(hitCategory);
+
+    // set active button
+    document.querySelectorAll('.category-item').forEach(b => b.classList.remove('active'));
+    const btn = document.querySelector(`[onclick="switchCategory('${hitCategory}')"]`);
+    if (btn) btn.classList.add('active');
+
+    shown = showMatchesInGrid();
+    showToast(`Found ${shown} in ${hitCategory}`, shown ? 'success' : 'info');
+    return shown;
+  }
+
+  // 3) No matches anywhere
+  showToast(`No results for “${term}”`, 'info');
+  return 0;
+}
 
 function initializeFavorites() {
   favorites.forEach(id => {
     const heart = document.querySelector(`[onclick="toggleFavorite('${id}')"] .heart-icon`);
     if (heart) {
       heart.textContent = '❤️';
-      heart.style.color = '#ef4444';
+      heart.style.color = 'oklch(62% 0.20 22)';
     }
   });
 }
@@ -193,7 +245,7 @@ function toggleFavorite(itemId) {
     favorites.push(itemId);
     if (heart) { heart.textContent = '❤️'; heart.style.color = '#ef4444'; }
   }
-  localStorage.setItem('snacksPointFavorites', JSON.stringify(favorites));
+  localStorage.setItem('quickBitesFavorites', JSON.stringify(favorites));
 }
 
 window.logout = logout;
@@ -202,10 +254,32 @@ window.toggleFavorite = toggleFavorite;
 window.showToast = showToast;
 window.enhancedAddToCart = enhancedAddToCart;
 
+function setLocation(address) {
+  localStorage.setItem('qb_location', address);
+  //showToast(`Come check us out @ ${address}`, 'info', 5000);
+  window.location.href = 'location.html';
+}
+
+function initalizeLocationSelector() {
+  const btn = document.querySelector('.address-btn');
+  if (!btn) return;
+
+  //Pretend address in SF
+  const pretendAddress = '123 Main St, San Francisco, CA 94102';
+  
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setLocation(pretendAddress);
+  });
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
   renderCategory(currentCategory);
   initializeFavorites();
   initializeSearch();
+  initalizeLocationSelector();
   if (localStorage.getItem('isLoggedIn') !== 'true') {
     window.location.href = 'index.html';
   }
